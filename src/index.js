@@ -13,7 +13,8 @@ injectGlobal`
     margin: 0;
     padding: 0;
     font-family: 'Ubuntu Mono', monospace;
-    color: ${colors[0]}
+    background-color: ${colors[13]};
+    color: ${colors[0]};
   }
 `
 

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 
-import Composition from 'components/Composition'
-
 export default function App() {
-  return <Composition />
+  return <h1>dog logic: higher order functions</h1>
 }

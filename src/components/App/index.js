@@ -29,32 +29,47 @@ export default class App extends Component {
 
     const glitch = () => glitchStr.substring(0, this.props.dots * 2)
 
+    const src = 'https://www.youtube.com/embed/VrEZeSQ9VWY?rel=0&amp;controls=0&amp;showinfo=0'
+
     return (
-      <PageContainer>
-        <Row>
-          <Hash colorIndex={2}>0418</Hash>
-          <Prompt>/~dog_logic: </Prompt>
-          <Line>higher order functions{dots()}</Line>
-        </Row>
-        <Row>
-          <Line>
-            {
-              '> - █̿̿̿̿̿̿̿̿̿█̿̿̿̿̿̿̿̿█̿̿̿̿̿̿̿█̿̿̿̿̿̿█̿̿̿̿̿█̿̿̿̿█̿̿̿█̿̿█̿█͇█͇͇█͇͇͇█͇͇͇͇█͇͇͇͇͇█͇͇͇͇͇͇█͇͇͇͇͇͇͇█͇͇͇͇͇͇͇͇█͇͇͇͇͇͇͇͇͇'
-            }
-            {glitch()}
-          </Line>
-        </Row>
-        <Row />
-        <Row mt={0.1}>
-          <Console />
-        </Row>
-      </PageContainer>
+      <PageWrapper>
+        <PageContainer>
+          <Row>
+            <VideoSection>
+              <iframe width="100%" src={src} frameBorder="0" allowFullScreen />
+            </VideoSection>
+          </Row>
+          <Row>
+            <Hash colorIndex={2}>0418</Hash>
+            <Prompt>/~dog_logic: </Prompt>
+            <Line>higher order functions{dots()}</Line>
+          </Row>
+          <Row>
+            <Line>
+              {
+                '> - █̿̿̿̿̿̿̿̿̿█̿̿̿̿̿̿̿̿█̿̿̿̿̿̿̿█̿̿̿̿̿̿█̿̿̿̿̿█̿̿̿̿█̿̿̿█̿̿█̿█͇█͇͇█͇͇͇█͇͇͇͇█͇͇͇͇͇█͇͇͇͇͇͇█͇͇͇͇͇͇͇█͇͇͇͇͇͇͇͇█͇͇͇͇͇͇͇͇͇'
+              }
+              {glitch()}
+            </Line>
+          </Row>
+          <Row />
+          <Row mt={0.1}>
+            <Console />
+          </Row>
+        </PageContainer>
+      </PageWrapper>
     )
   }
 }
-
+const PageWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 const PageContainer = styled.div`
   width: 100%;
+  max-width: 800px;
   height: 100%;
 `
 
@@ -85,4 +100,18 @@ const Line = styled.span`
 
 const Hash = styled.span`
   color: ${props => colors[props.colorIndex]};
+`
+
+const VideoSection = styled.div`
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+  > iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 `

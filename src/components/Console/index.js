@@ -101,17 +101,15 @@ export default class ConsoleComponent extends Component {
       '█͇█͇͇█͇͇͇█͇͇͇͇█͇͇͇͇͇█͇͇͇͇͇͇█͇͇͇͇͇͇͇█͇͇͇͇͇͇͇͇█͇͇͇͇͇͇͇͇͇\ndebut album release 0418\nenter email for free download, stems, and more'
     return (
       <ConsoleWrapper>
-        <MediaQuery minDeviceWidth={1224}>
-          <Console
-            ref={ref => {
-              this.console = ref
-            }}
-            handler={this.handleConsoleSubmit}
-            autofocus={true}
-            promptLabel={'> '}
-            welcomeMessage={welcomeMessage}
-          />
-        </MediaQuery>
+        <Console
+          ref={ref => {
+            this.console = ref
+          }}
+          handler={this.handleConsoleSubmit}
+          autofocus={true}
+          promptLabel={'> '}
+          welcomeMessage={welcomeMessage}
+        />
         <BottomSection>
           <form onSubmit={this.handleSubmit}>
             <input

@@ -67,7 +67,7 @@
     "webpack-dev-server": "2.5.0",
     "webpack-manifest-plugin": "1.1.0"
   },
-  "homepage": "http://higherorderfunctions.com",
+  "homepage": "http://doglogic.io",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",

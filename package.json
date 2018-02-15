@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "dotenv": "4.0.0",
+    "email-validator": "^1.1.1",
     "expose-loader": "^0.7.3",
     "fast-csv": "^2.4.0",
     "gh-pages": "^1.0.0",

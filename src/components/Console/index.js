@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import MediaQuery from 'react-responsive'
 import styled from 'styled-components'
 import Console from 'react-console-component'
-import isEmail from 'isemail'
+import emailValidator from 'email-validator'
 import jsonp from 'jsonp'
 
 import colors from 'constants/colors'
@@ -57,7 +57,7 @@ export default class ConsoleComponent extends Component {
       return
     }
 
-    const valid = isEmail.validate(text)
+    const valid = emailValidator.validate(text)
     if (!valid) {
       this.console.log('please enter a valid email')
       this.console.return()

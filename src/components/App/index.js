@@ -29,7 +29,7 @@ export default class App extends Component {
 
     const glitch = () => glitchStr.substring(0, this.props.dots * 2)
 
-    const src = 'https://www.youtube.com/embed/VrEZeSQ9VWY?rel=0&amp;controls=0&amp;showinfo=0'
+    const src = 'https://www.youtube.com/embed/VrEZeSQ9VWY?rel=0&amp;showinfo=0'
 
     return (
       <PageWrapper>

@@ -5,23 +5,18 @@ import styled from 'styled-components'
 import Console from 'react-console-component'
 import emailValidator from 'email-validator'
 import jsonp from 'jsonp'
+import {observer} from 'mobx-react'
 
 import colors from 'constants/colors'
+import {Links} from './links'
+
+import {registrationManager} from '../../registration'
 
 const action =
   'https://doglogic.us17.list-manage.com/subscribe/post?u=97213734d5b0ce1d4858be710&amp;id=360faf6599&SIGNUP=doglogic_dot_io'
 const getAjaxUrl = url => url.replace('/post?', '/post-json?')
 
-const getErrorMsg = (err, data, email) => {
-  if (data.msg.indexOf('is already subscribed') !== -1) {
-    return `${email} is already registered.`
-  } else if (data.msg.indexOf('invalid') !== -1) {
-    return `please enter a valid email`
-  } else {
-    return err || data.msg
-  }
-}
-
+@observer
 export default class ConsoleComponent extends Component {
   componentDidMount() {
     this.consoleElement = ReactDOM.findDOMNode(this.console)
@@ -29,12 +24,12 @@ export default class ConsoleComponent extends Component {
       const textarea = this.consoleElement.querySelector('textarea')
       setTimeout(this.toggleCursor, 500)
       this.console.focus()
-      console.log(this.console)
     }
-  }
 
-  state = {
-    hasRegistered: false,
+    // Add the specific download links to the welcome message
+    const welcomeElement = this.consoleElement.querySelector('.react-console-welcome')
+    this.linksElement = <Links hasRegistered={registrationManager.hasRegistered}/>
+    ReactDOM.render(this.linksElement, welcomeElement)
   }
 
   toggleCursor = (on = true) => {
@@ -46,15 +41,38 @@ export default class ConsoleComponent extends Component {
     setTimeout(() => this.toggleCursor(!on), 500)
   }
 
+  setRegistered = () => {
+    registrationManager.setRegistered()
+  }
+
+  alreadyRegisteredText = (text) => {
+    return `${text} is already registered.\nuse download links above.`
+  }
+
+  handleError = (err, data, text) => {
+    if (data.msg.indexOf('is already subscribed') !== -1) {
+      this.setRegistered()
+      return this.alreadyRegisteredText(text)
+    } else if (data.msg.indexOf('invalid') !== -1) {
+      return `please enter a valid email`
+    } else {
+      return err || data.msg
+    }
+  }
+
   handleConsoleSubmit = text => {
     if (!text) {
       return
     }
 
-    if (this.state.hasRegistered) {
-      this.console.log(text)
-      this.console.return()
-      return
+    if (registrationManager.hasRegistered) {
+      if (emailValidator.validate(text)) {
+        const message = this.alreadyRegisteredText(text)
+        this.console.log(message)
+      } else {
+        this.console.log(text)
+      }
+      return this.console.return()
     }
 
     const valid = emailValidator.validate(text)
@@ -66,12 +84,11 @@ export default class ConsoleComponent extends Component {
       const opts = { param: 'c' }
       jsonp(url, opts, (err, data) => {
         if (err || data.result === 'error') {
-          console.log(err, data)
-          const errorMsg = getErrorMsg(err, data, text)
+          const errorMsg = this.handleError(err, data, text)
           this.console.log(errorMsg)
         } else {
           this.console.log(`${text} succesfully registered!`)
-          this.setState({ hasRegistered: true })
+          this.setRegistered()
         }
         this.console.return()
       })
@@ -96,9 +113,7 @@ export default class ConsoleComponent extends Component {
     this.console.change()
   }
 
-  render() {
-    const welcomeMessage =
-      '█͇█͇͇█͇͇͇█͇͇͇͇█͇͇͇͇͇█͇͇͇͇͇͇█͇͇͇͇͇͇͇█͇͇͇͇͇͇͇͇█͇͇͇͇͇͇͇͇͇\ndebut album release 0418\nenter email for free download, stems, and more'
+  render() {      
     return (
       <ConsoleWrapper>
         <Console
@@ -108,7 +123,7 @@ export default class ConsoleComponent extends Component {
           handler={this.handleConsoleSubmit}
           autofocus={true}
           promptLabel={'> '}
-          welcomeMessage={welcomeMessage}
+          welcomeMessage={'█͇█͇͇█͇͇͇█͇͇͇͇█͇͇͇͇͇█͇͇͇͇͇͇█͇͇͇͇͇͇͇█͇͇͇͇͇͇͇͇█͇͇͇͇͇͇͇͇͇'}
         />
         <BottomSection>
           <form onSubmit={this.handleSubmit}>

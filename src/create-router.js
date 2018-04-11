@@ -3,7 +3,11 @@ import loggerPlugin from 'router5/plugins/logger'
 import listenersPlugin from 'router5/plugins/listeners'
 import browserPlugin from 'router5/plugins/browser'
 
-const routes = [{ name: 'default', path: '/' }]
+const routes = [{ 
+  name: 'default', path: '/' 
+}, {
+  name: 'downloads', path: '/downloads',
+}]
 
 export default function configureRouter() {
   const router = createRouter(routes, {
@@ -17,6 +21,10 @@ export default function configureRouter() {
   }
 
   router.canActivate('default', (_router) => (toState, fromState) => {
+    return true
+  })
+
+  router.canActivate('downloads', (_router) => (toState, fromState) => {
     return true
   })
 

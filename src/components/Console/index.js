@@ -28,7 +28,12 @@ export default class ConsoleComponent extends Component {
 
     // Add the specific download links to the welcome message
     const welcomeElement = this.consoleElement.querySelector('.react-console-welcome')
-    this.linksElement = <Links hasRegistered={registrationManager.hasRegistered}/>
+    this.linksElement = (
+      <Links 
+        downloadLinkClick={this.props.router}
+        hasRegistered={registrationManager.hasRegistered}
+      />
+    )
     ReactDOM.render(this.linksElement, welcomeElement)
   }
 
